@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'DynamicForm'`, () => {
+  it(`should have as title 'payeverCalender'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('DynamicForm');
+    expect(app.title).toEqual('payeverCalender');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('DynamicForm app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('payeverCalender app is running!');
   });
 });
