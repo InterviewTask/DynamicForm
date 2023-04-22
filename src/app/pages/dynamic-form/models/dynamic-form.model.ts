@@ -1,10 +1,11 @@
-import { Validator } from "@angular/forms";
+import { AbstractControl, ValidationErrors, Validator } from "@angular/forms";
 
 export interface DynamicForm {
     name: string;
     submitAction: any;
     formContols: DynamicFormControls[];
     submitButtonName:string;
+    direction : 'rtl'| 'ltr';
 }
 
 export interface DynamicFormControls {
@@ -14,11 +15,13 @@ export interface DynamicFormControls {
     title?: string;
     type: DynamicFormControlType;
     icon?: string;
-    validations?: Validator[];
+    metaData?:any;
+    value?:any;
+    validations?: ((control: AbstractControl<any, any>) => ValidationErrors | null)[];
 }
 
 export enum DynamicFormControlType {
-    TEXT_BOX,
+    TEXTBOX,
     NUMBER,
     EMAIL,
     PASSWORD,
@@ -27,6 +30,7 @@ export enum DynamicFormControlType {
     SELECT,
     TIME,
     TEXTAREA,
-    CHECK_BOX,
-    RADIO_BOX
+    CHECKBOX,
+    RADIOBOX,
+    ARRAY
 }
