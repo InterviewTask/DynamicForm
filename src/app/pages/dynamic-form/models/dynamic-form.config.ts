@@ -65,7 +65,7 @@ export const DYNAMIC_FORM_CONFIG : DynamicForm = {
       title:'Phone',
       label:'Phone',
       icon: 'person',
-      validations:[phoneValidator],
+      validations:[Validators.required, Validators.pattern(/^09\d{9}$/)],
       type: DynamicFormControlType.ARRAY,
     },
     {

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DynamicForm, DynamicFormControlType } from '../../models/dynamic-form.model';
 
 @Component({
@@ -9,8 +9,8 @@ import { DynamicForm, DynamicFormControlType } from '../../models/dynamic-form.m
 })
 export class FormBuilderComponent implements OnInit {
   form !: FormGroup;
-  fromControlType=DynamicFormControlType
-  @Input() config!:DynamicForm;
+  fromControlType = DynamicFormControlType
+  @Input() config!: DynamicForm;
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -20,18 +20,29 @@ export class FormBuilderComponent implements OnInit {
   createFormGroup(): FormGroup {
     let group: any = {};
     this.config?.formContols.forEach(control => {
+      if(control.type === this.fromControlType.ARRAY) {
+        group[control.name+'Array'] = new FormControl(control.value || []);
+      }
       group[control.name] = control.validations ?
-      new FormControl(control.value || '', control.validations) :
-      new FormControl(control.value || '');
+        new FormControl(control.value || '', control.validations) :
+        new FormControl(control.value || '');
     });
     return new FormGroup(group);
   }
 
   onSubmit(): void {
-    console.log(this.form.value);
-    // this.config?.submitAction(this.form.value);
+    const formValue = this.form.value;
+
+    // console.log(this.form.value);
+    this.config?.submitAction(this.form.value);
   }
 
+  addToControl(formControlName: string) {
+    const control = this.form.get(formControlName+'Array');
+    if(this.form.get(formControlName)?.valid) {
+      (control?.value as Array<any>).push(this.form.get(formControlName)?.value);
+    }
+  }
 }
 
 
