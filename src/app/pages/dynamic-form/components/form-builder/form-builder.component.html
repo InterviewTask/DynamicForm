@@ -1,0 +1,17 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" [dir]="config.direction">
+  <ng-container *ngFor="let field of config?.formContols">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ field.label }}</mat-label>
+      <ng-container [ngSwitch]="field.type">
+        <ng-container *ngSwitchCase="fromControlType.TEXTBOX">
+          <input matInput placeholder="Placeholder" />
+        </ng-container>
+        <div *ngSwitchDefault>Unknown type</div>
+      </ng-container>
+      <mat-icon matSuffix>{{ field.icon }}</mat-icon>
+      <mat-hint>{{ field.hint }}</mat-hint>
+    </mat-form-field>
+  </ng-container>
+
+  <button type="submit">{{config.submitButtonName}}</button>
+</form>

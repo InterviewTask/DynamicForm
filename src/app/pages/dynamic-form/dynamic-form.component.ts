@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DYNAMIC_FORM_CONFIG } from './models/dynamic-form.config';
+import { DynamicForm } from './models/dynamic-form.model';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -6,8 +8,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dynamic-form.component.scss']
 })
 export class DynamicFormComponent implements OnInit {
-
-  constructor() { }
+  config!:DynamicForm;
+  constructor() {
+    this.config = DYNAMIC_FORM_CONFIG;
+   }
 
   ngOnInit(): void {
   }
