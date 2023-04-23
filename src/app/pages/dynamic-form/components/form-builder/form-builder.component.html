@@ -1,4 +1,9 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" [dir]="config.direction">
+<form
+  class="dynamic-form-container"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  [dir]="config.direction"
+>
   <ng-container *ngFor="let field of config?.formContols">
     <ng-container [ngSwitch]="field.type">
       <ng-container *ngSwitchCase="fromControlType.TEXTBOX">
@@ -7,9 +12,9 @@
           <input matInput [formControlName]="field.name" />
           <mat-icon matSuffix>{{ field.icon }}</mat-icon>
           <mat-hint>{{ field.hint }}</mat-hint>
-          <mat-error *ngIf="form.get(field.name)?.errors">{{
-            form.get(field.name)?.errors | json
-          }}</mat-error>
+          <mat-error *ngIf="form.get(field.name)?.errors">
+            {{ getError(form.get(field.name)?.errors) }}
+          </mat-error>
         </mat-form-field>
       </ng-container>
 
@@ -19,21 +24,21 @@
           <input matInput type="number" [formControlName]="field.name" />
           <mat-icon matSuffix>{{ field.icon }}</mat-icon>
           <mat-hint>{{ field.hint }}</mat-hint>
-          <mat-error *ngIf="form.get(field.name)?.errors">{{
-            form.get(field.name)?.errors | json
-          }}</mat-error>
+          <mat-error *ngIf="form.get(field.name)?.errors">
+            {{ getError(form.get(field.name)?.errors) }}
+          </mat-error>
         </mat-form-field>
       </ng-container>
 
       <ng-container *ngSwitchCase="fromControlType.TEXTAREA">
         <mat-form-field appearance="outline">
           <mat-label>{{ field.label }}</mat-label>
-          <textarea matInput [formControlName]="field.name" > </textarea>
+          <textarea matInput [formControlName]="field.name"> </textarea>
           <mat-icon matSuffix>{{ field.icon }}</mat-icon>
           <mat-hint>{{ field.hint }}</mat-hint>
-          <mat-error *ngIf="form.get(field.name)?.errors">{{
-            form.get(field.name)?.errors | json
-          }}</mat-error>
+          <mat-error *ngIf="form.get(field.name)?.errors">
+            {{ getError(form.get(field.name)?.errors) }}
+          </mat-error>
         </mat-form-field>
       </ng-container>
 
@@ -43,10 +48,22 @@
           <input type="email" matInput [formControlName]="field.name" />
           <mat-icon matSuffix>{{ field.icon }}</mat-icon>
           <mat-hint>{{ field.hint }}</mat-hint>
-          <mat-error *ngIf="form.get(field.name)?.errors">{{
-            form.get(field.name)?.errors | json
-          }}</mat-error>
+          <mat-error *ngIf="form.get(field.name)?.errors">
+            {{ getError(form.get(field.name)?.errors) }}
+          </mat-error>
         </mat-form-field>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="fromControlType.CHECKBOX">
+        <div class="mat-form-field">
+          <mat-checkbox [formControlName]="field.name">{{
+            field.label
+          }}</mat-checkbox>
+          <mat-hint>{{ field.hint }}</mat-hint>
+          <mat-error *ngIf="form.get(field.name)?.errors">
+            {{ getError(form.get(field.name)?.errors) }}
+          </mat-error>
+        </div>
       </ng-container>
 
       <ng-container *ngSwitchCase="fromControlType.SELECT">
@@ -63,29 +80,35 @@
 
           <mat-icon matSuffix>{{ field.icon }}</mat-icon>
           <mat-hint>{{ field.hint }}</mat-hint>
-          <mat-error *ngIf="form.get(field.name)?.errors">{{
-            form.get(field.name)?.errors | json
-          }}</mat-error>
+          <mat-error *ngIf="form.get(field.name)?.errors">
+            {{ getError(form.get(field.name)?.errors) }}
+          </mat-error>
         </mat-form-field>
       </ng-container>
 
       <ng-container *ngSwitchCase="fromControlType.ARRAY">
-        <mat-form-field appearance="outline">
-          <mat-label>{{ field.label }}</mat-label>
-          <input matInput type="tel" [formControlName]="field.name" />
-          <mat-icon matPrefix>{{ field.icon }}</mat-icon>
-          <mat-hint>{{ field.hint }}</mat-hint>
-          <mat-error *ngIf="form.get(field.name)?.errors">{{
-            form.get(field.name)?.errors | json
-          }}</mat-error>
-        </mat-form-field>
-        <!-- Show Data -->
-        <ng-container
-          *ngFor="let item of form.get(field.name + 'Array')?.value"
-        >
-          <li>{{ item | json }}</li>
-        </ng-container>
-        <mat-icon (click)="addToControl(field.name)">add_circle</mat-icon>
+        <div class="form-control-array">
+          <div class="row">
+            <mat-form-field appearance="outline">
+              <mat-label>{{ field.label }}</mat-label>
+              <input matInput type="tel" [formControlName]="field.name" />
+              <mat-icon matSuffix>{{ field.icon }}</mat-icon>
+              <mat-hint>{{ field.hint }}</mat-hint>
+              <mat-error *ngIf="form.get(field.name)?.errors">
+                {{ getError(form.get(field.name)?.errors) }}
+              </mat-error>
+            </mat-form-field>
+            <mat-icon (click)="addToControl(field.name)">add_circle</mat-icon>
+          </div>
+          <!-- Show Data -->
+          <div class="added-item">
+            <ng-container
+              *ngFor="let item of form.get(field.name + 'Array')?.value"
+            >
+              <li>{{ item }}</li>
+            </ng-container>
+          </div>
+        </div>
       </ng-container>
 
       <ng-container *ngSwitchCase="fromControlType.DATE">
@@ -102,15 +125,19 @@
           <mat-datepicker [disabled]="false" #releasedAtPicker>
           </mat-datepicker>
           <mat-hint>{{ field.hint }}</mat-hint>
-          <mat-error *ngIf="form.get(field.name)?.errors">{{
-            form.get(field.name)?.errors | json
-          }}</mat-error>
+          <mat-error *ngIf="form.get(field.name)?.errors">
+            {{ getError(form.get(field.name)?.errors) }}
+          </mat-error>
         </mat-form-field>
       </ng-container>
 
       <div *ngSwitchDefault>Unknown type</div>
     </ng-container>
   </ng-container>
-
-  <button type="submit">{{ config.submitButtonName }}</button>
+  <div class="action">
+    <button mat-raised-button color="accent" type="submit">
+      {{ config.submitButtonName }}
+    </button>
+    <button mat-raised-button>Cancle</button>
+  </div>
 </form>

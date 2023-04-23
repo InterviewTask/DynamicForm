@@ -15,6 +15,7 @@ export const DYNAMIC_FORM_CONFIG : DynamicForm = {
       title:'First name',
       label:'First name',
       icon: 'person',
+      value:'Test Value ',
       validations:[Validators.required],
       type: DynamicFormControlType.TEXTBOX,
     },
@@ -67,13 +68,18 @@ export const DYNAMIC_FORM_CONFIG : DynamicForm = {
       icon: 'person',
       validations:[Validators.required, Validators.pattern(/^09\d{9}$/)],
       type: DynamicFormControlType.ARRAY,
+      value:[
+        '09910448196',
+        '09910448197',
+        '09910448198',
+      ]
     },
     {
       name:'email',
       title:'Email',
       label:'Email',
       icon: 'person',
-      validations:[Validators.email],
+      validations:[Validators.required, Validators.email],
       type: DynamicFormControlType.EMAIL,
     },
     {
@@ -89,6 +95,14 @@ export const DYNAMIC_FORM_CONFIG : DynamicForm = {
       label:'Description',
       icon: 'person',
       type: DynamicFormControlType.TEXTAREA,
+    },
+    {
+      name:'accecpt',
+      title:'Accept licents and ...',
+      label:'Accept licents and ...',
+      icon: 'person',
+      validations:[Validators.requiredTrue],
+      type: DynamicFormControlType.CHECKBOX,
     },
   ]
 }
